@@ -12,7 +12,6 @@
         density="compact"
         hide-details="auto"
         class="ml-4"
-        clearable
       />
     </div>
   </div>
