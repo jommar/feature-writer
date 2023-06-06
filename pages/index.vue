@@ -26,7 +26,15 @@
             center-active
           >
             <v-tab v-for="(step, index) in steps[form.type]" :key="index">
-              {{ step?.title }}
+              <div class="position-relative">
+                <span>{{ step?.title }}</span>
+                <v-badge
+                  color="error"
+                  dot
+                  class="float-right ml-8"
+                  v-if="!form[step?.formName]"
+                />
+              </div>
             </v-tab>
           </v-tabs>
           <v-window v-model="tab">
