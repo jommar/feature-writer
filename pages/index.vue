@@ -1,11 +1,12 @@
 <template>
   <div>
     <v-container class="d-flex justify-center align-center">
-      <div>I am writing a</div>
+      <div>I am writing</div>
       <v-select
         :items="[
-          { title: 'Feature', value: 'feature' },
-          { title: 'Bug', value: 'bug' },
+          { title: 'a Feature', value: 'feature' },
+          { title: 'a Bug', value: 'bug' },
+          { title: 'an Epic', value: 'epic' },
         ]"
         v-model="form.type"
         density="compact"
@@ -130,6 +131,10 @@ export default defineComponent({
       actual: '',
       steps: '',
       severity: '',
+      epicTitle: '',
+      overview: '',
+      value: '',
+      userStories: '',
       loading: false,
       type: null,
     })
@@ -214,6 +219,50 @@ export default defineComponent({
           description:
             'How severe is this bug and what is its impact on the system or the user experience?',
           formName: 'severity',
+        },
+      ],
+      epic: [
+        {
+          title: 'Epic Title',
+          description:
+            'What would be a brief, descriptive name for the epic that captures its overall theme?',
+          formName: 'epicTitle',
+        },
+        {
+          title: 'User Role(s)',
+          description:
+            'Who are the primary user or users involved in this epic?',
+          formName: 'userRole',
+        },
+        {
+          title: 'Overview',
+          description:
+            "Can you give an overview of the epic? What is the big picture or the high-level functionality that you're aiming for?",
+          formName: 'overview',
+        },
+        {
+          title: 'Business Value',
+          description:
+            'What is the expected business value or benefit that will be gained from implementing this epic?',
+          formName: 'value',
+        },
+        {
+          title: 'Non-Functional Requirements',
+          description:
+            'Are there any overarching non-functional requirements that apply to the epic as a whole, such as performance, security, or usability considerations?',
+          formName: 'nonFunctional',
+        },
+        {
+          title: 'Acceptance Criteria',
+          description:
+            'What are the broad acceptance criteria for this epic? How will we know when the entire epic has been completed successfully?',
+          formName: 'acceptance',
+        },
+        {
+          title: 'Potential User Stories',
+          description:
+            "Can you identify any potential user stories that might form part of this epic? These can be high-level ideas that we'll break down into more detailed user stories later.",
+          formName: 'userStories',
         },
       ],
     })
