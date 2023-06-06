@@ -3,7 +3,7 @@ import { HumanChatMessage, SystemChatMessage } from 'langchain/schema'
 
 const model = new ChatOpenAI({
   openAIApiKey: useRuntimeConfig().openai.API_KEY,
-  temperature: 0.2,
+  temperature: 0.8,
   modelName: 'gpt-3.5-turbo',
   maxTokens: 3000,
 })
