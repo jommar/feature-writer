@@ -1,3 +1,9 @@
+# Project Management Integration App
+
+## Story Writer
+
+Our Project Management Integration App is a robust tool designed to help teams streamline the process of creating features, bugs, and epics and integrate these tasks seamlessly with popular project management tools such as Jira.
+
 # Nuxt 3 Minimal Starter
 
 Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
