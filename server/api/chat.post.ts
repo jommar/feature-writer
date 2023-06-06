@@ -10,32 +10,24 @@ const model = new ChatOpenAI({
 
 export default defineEventHandler(async (event) => {
   const body = await readBody(event)
+  const context = body.form.map(
+    (i: { title: string; value: string }) => `${i.title}: ${i.value}`,
+  )
+
   const messages = [
     new SystemChatMessage(
-      `You are a world class business analyst and you will help create tickets for features on my application.`,
+      `You are a world class business analyst and you will help create tickets on my application. The type of ticket is: ${body.type.toUpperCase()}`,
     ),
-    new HumanChatMessage(`I will be providing you with answers to these steps.
-  """
-  1. User Role
-  2. Goal/Desired Outcome
-  3. Context
-  4. Functional Requirement
-  5. Acceptance Criteria
-  6. Non-Functional Requirement
-  """`),
-    new HumanChatMessage(`
-  User Role: ${body.userRole}
-  Goal: ${body.goal}
-  Context: ${body.context}
-  Functional Requirement: ${body.functional}
-  Acceptance criteria: ${body.acceptance}
-  Non functional requirements: ${body.nonFunctional}
-  `),
+    new HumanChatMessage(
+      `This will be the content """ ${context.join(
+        '\n',
+      )} """`,
+    ),
     new HumanChatMessage(
       'With these information, what should the ticket look like? Be as descriptive as possible, do not leave out any details',
     ),
   ]
 
   const chat = await model.call(messages)
-  return { res: chat.text }
+  return { text: chat.text }
 })
