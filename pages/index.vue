@@ -87,7 +87,7 @@
               </v-btn>
             </div>
           </v-card-actions>
-          <div v-if="response.data.text">
+          <div v-if="response?.data?.[0]?.text">
             <v-btn variant="text" @click="response.show = true">
               Show Result
             </v-btn>
@@ -97,13 +97,31 @@
     </v-container>
     <v-dialog v-model="response.show">
       <v-card class="bg-grey-darken-4">
-        <v-container>
-          <div style="white-space: pre-wrap;">{{ response?.data?.text }}</div>
-        </v-container>
+        <v-window v-model="window" show-arrows theme="dark">
+          <template #prev="{props}">
+            <v-btn color="info" variant="text" @click="props.onClick">
+              Prev
+            </v-btn>
+          </template>
+          <template #next="{props}">
+            <v-btn color="info" variant="text" @click="props.onClick">
+              Next
+            </v-btn>
+          </template>
+          <v-window-item v-for="(res, index) in response?.data" :key="index">
+            <v-card theme="dark" class="d-flex justify-center align-center">
+              <v-container>
+                <div style="white-space: pre-wrap;">
+                  {{ res?.text }}
+                </div>
+              </v-container>
+            </v-card>
+          </v-window-item>
+        </v-window>
         <v-container class="text-center">
           <v-btn
             :loading="form.loading"
-            @click="sumbitForm"
+            @click="sumbitForm({ showCurrent: true })"
             color="light-blue"
             variant="text"
           >
@@ -131,8 +149,9 @@ export default defineComponent({
     const tab = ref(0)
     const response = ref({
       show: false,
-      data: {},
+      data: [],
     })
+    const window = ref(0)
     const form = ref({
       userRole: '',
       goal: '',
@@ -365,10 +384,12 @@ export default defineComponent({
       },
     )
 
-    const sumbitForm = async () => {
-      response.value.show = false
+    const sumbitForm = async ({ showCurrent = false }) => {
       form.value.loading = true
-      response.value.data = {}
+      if (!showCurrent) {
+        response.value.show = false
+        response.value.data = []
+      }
       const request = {
         type: form.value.type,
         form: steps.value[form.value.type].map((i) => ({
@@ -382,11 +403,11 @@ export default defineComponent({
       })
       form.value.loading = false
 
-      response.value.data = data
+      response.value.data.unshift(data.value)
       response.value.show = true
     }
 
-    return { route, tab, steps, form, showSubmit, sumbitForm, response }
+    return { route, tab, steps, form, showSubmit, sumbitForm, response, window }
   },
 })
 </script>
