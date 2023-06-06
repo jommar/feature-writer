@@ -2,7 +2,7 @@ import { ChatOpenAI } from 'langchain/chat_models/openai'
 import { HumanChatMessage, SystemChatMessage } from 'langchain/schema'
 
 const model = new ChatOpenAI({
-  openAIApiKey: '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',
+  openAIApiKey: useRuntimeConfig().openai.API_KEY,
   temperature: 0.2,
   modelName: 'gpt-3.5-turbo',
   maxTokens: 3000,
@@ -10,7 +10,6 @@ const model = new ChatOpenAI({
 
 export default defineEventHandler(async (event) => {
   const body = await readBody(event)
-  const d = new HumanChatMessage('ASD')
   const messages = [
     new SystemChatMessage(
       `You are a world class business analyst and you will help create tickets for features on my application.`,
@@ -33,7 +32,7 @@ export default defineEventHandler(async (event) => {
   Non functional requirements: ${body.nonFunctional}
   `),
     new HumanChatMessage(
-      'With these information, what should the ticket look like?',
+      'With these information, what should the ticket look like? Be as descriptive as possible, do not leave out any details',
     ),
   ]
 
