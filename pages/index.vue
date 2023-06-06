@@ -4,7 +4,7 @@
       <TypeSelector v-model="form" />
     </v-container>
     <v-container class="text-center" v-if="form.type">
-      <Form
+      <FormLinear
         v-model="form"
         ref="formComponent"
         @submitForm="
