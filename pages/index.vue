@@ -62,6 +62,9 @@ export default defineComponent({
     watch(
       () => form.value.type,
       (val) => {
+        if (formComponent.value) {
+          formComponent.value.tab = 0
+        }
         form.value.userRole = ''
         form.value.goal = ''
         form.value.context = ''
