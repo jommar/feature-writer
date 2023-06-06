@@ -56,6 +56,7 @@ export default defineComponent({
       userStories: '',
       loading: false,
       type: null,
+      riskAssessment: true,
     })
 
     watch(

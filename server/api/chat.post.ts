@@ -19,14 +19,20 @@ export default defineEventHandler(async (event) => {
       `You are a world class business analyst and you will help create tickets on my application. The type of ticket is: ${body.type.toUpperCase()}`,
     ),
     new HumanChatMessage(
-      `This will be the content """ ${context.join(
-        '\n',
-      )} """`,
+      `This will be the content """ ${context.join('\n')} """`,
     ),
     new HumanChatMessage(
       'With these information, what should the ticket look like? Be as descriptive as possible, do not leave out any details',
     ),
   ]
+
+  if (body.riskAssessment) {
+    messages.splice(
+      1,
+      0,
+      new HumanChatMessage('Please include a risk assessment'),
+    )
+  }
 
   const chat = await model.call(messages)
   return { text: chat.text }

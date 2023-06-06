@@ -13,11 +13,11 @@
       </template>
       <v-window-item v-for="(res, index) in data" :key="index">
         <v-card theme="dark" class="d-flex justify-center align-center">
-          <v-container>
+          <v-card-text style="overflow: auto; max-height: 80vh;">
             <div style="white-space: pre-wrap;">
               {{ res?.text }}
             </div>
-          </v-container>
+          </v-card-text>
         </v-card>
       </v-window-item>
     </v-window>

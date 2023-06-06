@@ -1,6 +1,16 @@
 <template>
   <v-form @submit.prevent="submit">
     <v-card class="bg-grey-darken-4">
+      <v-container class="d-flex">
+        <div>
+          <v-switch
+            color="success"
+            v-model="modelValue.riskAssessment"
+            label="Include Risk Assesment"
+            hide-details="auto"
+          />
+        </div>
+      </v-container>
       <v-tabs
         v-model="tab"
         align-tabs="center"
@@ -282,6 +292,7 @@ export default {
     const composeFormData = () => {
       const request = {
         type: props.modelValue.type,
+        riskAssessment: props.modelValue.riskAssessment,
         form: steps.value[props.modelValue.type].map((i) => ({
           title: i.title,
           value: props.modelValue[i.formName],
