@@ -72,7 +72,7 @@
               </v-btn>
             </div>
           </v-card-actions>
-          <div v-if="response.data.res">
+          <div v-if="response.data.text">
             <v-btn variant="text" @click="response.show = true">
               Show Result
             </v-btn>
@@ -84,6 +84,24 @@
       <v-card class="bg-grey-darken-4">
         <v-container>
           <div style="white-space: pre-wrap;">{{ response?.data?.text }}</div>
+        </v-container>
+        <v-container class="text-center">
+          <v-btn
+            :loading="form.loading"
+            @click="sumbitForm"
+            color="light-blue"
+            variant="text"
+          >
+            Generate again
+          </v-btn>
+          <v-btn
+            :loading="form.loading"
+            @click="response.show = false"
+            color="error"
+            variant="text"
+          >
+            Close
+          </v-btn>
         </v-container>
       </v-card>
     </v-dialog>
