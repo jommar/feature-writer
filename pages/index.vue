@@ -18,7 +18,13 @@
     <v-container class="text-center" v-if="form.type">
       <v-form @submit.prevent="sumbitForm">
         <v-card class="bg-grey-darken-4">
-          <v-tabs v-model="tab" align-tabs="center" class="mb-8">
+          <v-tabs
+            v-model="tab"
+            align-tabs="center"
+            class="mb-8"
+            show-arrows
+            center-active
+          >
             <v-tab v-for="(step, index) in steps[form.type]" :key="index">
               {{ step?.title }}
             </v-tab>
@@ -309,6 +315,19 @@ export default defineComponent({
         if (!form.value.severity.trim()) {
           return false
         }
+      } else if (form.value.type === 'epic') {
+        if (!form.value.epicTitle.trim()) {
+          return false
+        }
+        if (!form.value.overview.trim()) {
+          return false
+        }
+        if (!form.value.value.trim()) {
+          return false
+        }
+        if (!form.value.userStories.trim()) {
+          return false
+        }
       }
       if (steps.value[form.value.type].length - 1 !== tab.value) {
         return false
@@ -330,6 +349,10 @@ export default defineComponent({
         form.value.actual = ''
         form.value.steps = ''
         form.value.severity = ''
+        form.value.epicTitle = ''
+        form.value.overview = ''
+        form.value.value = ''
+        form.value.userStories = ''
         tab.value = 0
       },
     )
