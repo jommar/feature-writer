@@ -1,16 +1,6 @@
 <template>
   <v-card class="bg-grey-darken-4">
-    <v-window v-model="window" :show-arrows="!loading" theme="dark">
-      <template #prev="{props}">
-        <v-btn color="info" variant="text" @click="props.onClick">
-          Prev
-        </v-btn>
-      </template>
-      <template #next="{props}">
-        <v-btn color="info" variant="text" @click="props.onClick">
-          Next
-        </v-btn>
-      </template>
+    <v-window v-model="window" theme="dark">
       <v-window-item v-for="(res, index) in data" :key="index">
         <v-card theme="dark" class="d-flex justify-center align-center">
           <v-card-text style="overflow: auto; max-height: 80vh;">
@@ -21,6 +11,26 @@
         </v-card>
       </v-window-item>
     </v-window>
+
+    <section v-if="data.length > 1" class="d-flex justify-center mt-4">
+      <v-btn
+        class="mx-2"
+        variant="outlined"
+        @click="window -= 1"
+        :disabled="window === 0"
+      >
+        PREV
+      </v-btn>
+      <v-btn
+        class="mx-2"
+        variant="outlined"
+        @click="window += 1"
+        :disabled="window === data.length - 1"
+      >
+        NEXT
+      </v-btn>
+    </section>
+
     <v-container class="text-center">
       <v-btn
         :loading="loading"
@@ -48,8 +58,14 @@ export default {
     data: { type: Array, default: () => [] },
     loading: { type: Boolean, default: () => false },
   },
-  setup() {
+  setup(props) {
     const window = ref(0)
+    watch(
+      () => props.data.length,
+      () => {
+        window.value = 0
+      },
+    )
 
     return { window }
   },
