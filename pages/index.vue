@@ -21,7 +21,7 @@
       <Preview
         :data="response.data"
         @hide="response.show = false"
-        @generate="generateAgain"
+        @generate="generateAgain($refs.formComponent.formData)"
         :loading="form.loading"
       />
     </v-dialog>
@@ -99,9 +99,8 @@ export default defineComponent({
       response.value.show = true
     }
 
-    const generateAgain = () => {
-      const request = formComponent.value.composeFormData()
-      submitForm({ showCurrent: true, request })
+    const generateAgain = (data: any) => {
+      submitForm({ showCurrent: true, request: data })
     }
 
     return { route, form, submitForm, response, generateAgain, formComponent }

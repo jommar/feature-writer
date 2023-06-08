@@ -10,27 +10,26 @@ const model = new ChatOpenAI({
 
 export default defineEventHandler(async (event) => {
   const body = await readBody(event)
-  const context = body.form.map(
-    (i: { title: string; value: string }) => `${i.title}: ${i.value}`,
+  const bodyMessages = body.form.map(
+    (i: { title: any; value: any }) =>
+      new HumanChatMessage(`${i.title}: ${i.value}`),
   )
 
   const messages = [
     new SystemChatMessage(
       `You are a world class business analyst and you will help create tickets on my application. The type of ticket is: ${body.type.toUpperCase()}`,
     ),
+    ...bodyMessages,
     new HumanChatMessage(
-      `This will be the content """ ${context.join('\n')} """`,
-    ),
-    new HumanChatMessage(
-      'With these information, what should the ticket look like? Be as descriptive as possible, do not leave out any details',
+      'With these information, what should the ticket look like? Be as descriptive as possible, do not leave out any details. If there is no title, provide it.',
     ),
   ]
 
   if (body.riskAssessment) {
     messages.splice(
-      1,
+      messages.length - 1,
       0,
-      new HumanChatMessage('Please include a risk assessment'),
+      new HumanChatMessage('Risk Assessment: '),
     )
   }
 

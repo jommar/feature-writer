@@ -289,21 +289,21 @@ export default {
       return true
     })
 
-    const composeFormData = () => {
-      const request = {
+    const formData = computed(() => {
+      return {
         type: props.modelValue.type,
         riskAssessment: props.modelValue.riskAssessment,
-        form: steps.value[props.modelValue.type].map((i) => ({
-          title: i.title,
-          value: props.modelValue[i.formName],
-        })),
+        form: steps.value[props.modelValue.type]
+          .map((i) => ({
+            title: i.title,
+            value: props.modelValue[i.formName],
+          }))
+          .filter((i) => i.value),
       }
-
-      return request
-    }
+    })
 
     const submit = () => {
-      const request = composeFormData()
+      const request = formData.value
       context.emit('submitForm', request)
     }
 

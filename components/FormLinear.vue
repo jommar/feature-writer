@@ -11,8 +11,8 @@
           />
         </div>
         <div v-for="(step, index) in steps[modelValue.type]" :key="index">
-          <div>
-            <span class="text-light-blue text-uppercase">{{ step.title }}</span>
+          <div class="text-light-blue text-uppercase d-flex justify-center">
+            <span>{{ step.title }}</span>
           </div>
           <div class="text-h6 text-blue-lighten-3">{{ step.description }}</div>
           <div>
@@ -26,11 +26,7 @@
 
       <v-card-actions>
         <div class="d-flex justify-center" style="width: 100%;">
-          <v-btn
-            color="success"
-            type="submit"
-            :loading="modelValue.loading"
-          >
+          <v-btn color="success" type="submit" :loading="modelValue.loading">
             Submit
           </v-btn>
         </div>
@@ -181,25 +177,24 @@ export default {
       ],
     })
 
-    const composeFormData = () => {
-      const request = {
+    const formData = computed(() => {
+      return {
         type: props.modelValue.type,
         riskAssessment: props.modelValue.riskAssessment,
-        form: steps.value[props.modelValue.type].map((i) => ({
-          title: i.title,
-          value: props.modelValue[i.formName],
-        })),
+        form: steps.value[props.modelValue.type]
+          .map((i) => ({
+            title: i.title,
+            value: props.modelValue[i.formName],
+          }))
       }
-
-      return request
-    }
+    })
 
     const submit = () => {
-      const request = composeFormData()
+      const request = formData.value
       context.emit('submitForm', request)
     }
 
-    return { steps, tab, submit, composeFormData }
+    return { steps, tab, submit, formData }
   },
 }
 </script>
