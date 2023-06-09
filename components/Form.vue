@@ -32,7 +32,8 @@
         </v-btn>
       </div>
     </v-card-actions>
-    <v-dialog v-model="preview.show" scrollable theme="dark">
+
+    <v-dialog :persistent="loading" v-model="preview.show" scrollable theme="dark">
       <v-card theme="dark">
         <v-card-text>
           <div
