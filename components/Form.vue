@@ -28,18 +28,21 @@
         </v-btn>
       </div>
     </v-card-actions>
-    <v-dialog v-model="preview.show" scrollable>
+    <v-dialog v-model="preview.show" scrollable theme="dark">
       <v-card theme="dark">
         <v-card-text>
-          <v-window v-model="window">
-            <v-window-item v-for="(item,index) in preview.details" :key="index">
-              <div
-                class="d-flex justify-center pa-8"
-                v-if="loading && preview.details.length === 0"
-              >
-                <v-progress-circular indeterminate size="large" />
-              </div>
-              <div style="white-space: pre-wrap; font-size: 1.2rem;" v-else>
+          <div
+            class="d-flex justify-center pa-8"
+            v-if="loading && preview.details.length === 0"
+          >
+            <v-progress-circular indeterminate size="large" />
+          </div>
+          <v-window v-model="window" v-else>
+            <v-window-item
+              v-for="(item, index) in preview.details"
+              :key="index"
+            >
+              <div style="white-space: pre-wrap; font-size: 1.2rem;">
                 {{ item }}
               </div>
             </v-window-item>
