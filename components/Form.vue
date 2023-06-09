@@ -33,7 +33,7 @@
       </div>
     </v-card-actions>
 
-    <v-dialog :persistent="loading" v-model="preview.show" scrollable theme="dark">
+    <v-dialog max-width="70vw" :persistent="loading" v-model="preview.show" scrollable theme="dark">
       <v-card theme="dark">
         <v-card-text>
           <div

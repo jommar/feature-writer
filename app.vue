@@ -35,6 +35,7 @@ export default defineComponent({
     const navs = ref([
       { title: 'Home', to: '/' },
       { title: 'Learn', to: '/learn' },
+      { title: 'Story', to: '/story' },
     ])
 
     return { drawer, navs }
