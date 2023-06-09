@@ -39,6 +39,7 @@ export default defineComponent({
       { title: 'Home', to: '/' },
       { title: 'Learn', to: '/learn' },
       { title: 'Story', to: '/story' },
+      { title: 'Content', to: '/content' },
     ])
 
     return { drawer, navs }
