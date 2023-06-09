@@ -16,7 +16,11 @@
     </v-card-text>
     <v-card-actions>
       <div class="d-flex justify-center flex-grow-1">
-        <v-btn color="success" @click="submit" :loading="loading">
+        <v-btn
+          color="success"
+          @click="submit({ reset: true })"
+          :loading="loading"
+        >
           Submit
         </v-btn>
         <v-btn
@@ -42,7 +46,7 @@
               v-for="(item, index) in preview.details"
               :key="index"
             >
-              <div style="white-space: pre-wrap; font-size: 1.2rem;">
+              <div style="white-space: pre-wrap; font-size: 1.15rem;">
                 {{ item }}
               </div>
             </v-window-item>
@@ -109,10 +113,13 @@ export default defineComponent({
       }
     })
 
-    const submit = async () => {
+    const submit = async ({ reset = false }) => {
       loading.value = true
 
       preview.value.show = true
+      if (reset) {
+        preview.value.details = []
+      }
       const { data } = await useFetch('/api/chat-v2', {
         method: 'post',
         body: form.value,
