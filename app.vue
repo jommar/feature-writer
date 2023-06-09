@@ -15,6 +15,9 @@
             <v-list-item-title>{{ nav.title }}</v-list-item-title>
           </v-list-item>
         </v-list>
+        <div class="position-absolute" style="bottom: 0; left: 0; right: 0;">
+          <SavedItems />
+        </div>
       </v-navigation-drawer>
       <v-main class="bg-blue-grey-darken-4">
         <v-sheet

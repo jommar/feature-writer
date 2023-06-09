@@ -33,8 +33,23 @@
       </div>
     </v-card-actions>
 
-    <v-dialog max-width="70vw" :persistent="loading" v-model="preview.show" scrollable theme="dark">
+    <v-dialog
+      max-width="70vw"
+      :persistent="loading"
+      v-model="preview.show"
+      scrollable
+      theme="dark"
+    >
       <v-card theme="dark">
+        <v-btn
+          v-if="preview.details.length"
+          class="position-absolute"
+          style="right: 10px; bottom: 10px;"
+          icon="mdi-content-save"
+          variant="outlined"
+          color="success"
+          @click="save"
+        />
         <v-card-text>
           <div
             class="d-flex justify-center pa-8"
@@ -47,7 +62,10 @@
               v-for="(item, index) in preview.details"
               :key="index"
             >
-              <div style="white-space: pre-wrap; font-size: 1.15rem;">
+              <div
+                style="white-space: pre-wrap; font-size: 1.15rem;"
+                class="text-light-blue-lighten-4"
+              >
                 {{ item }}
               </div>
             </v-window-item>
@@ -91,6 +109,7 @@ export default defineComponent({
     context: { type: Array },
     systemMessage: { type: Object },
     placeholder: { type: String },
+    type: { type: String },
   },
   setup(props) {
     const loading = ref(false)
@@ -131,7 +150,21 @@ export default defineComponent({
       loading.value = false
     }
 
-    return { form, submit, loading, preview, getLabel, window }
+    const save = () => {
+      const LOCALSTORAGE_NAME = 'story-writer'
+      const content = {
+        type: props.type,
+        text: preview.value.details[window.value],
+      }
+      if (!localStorage.getItem(LOCALSTORAGE_NAME)) {
+        localStorage.setItem(LOCALSTORAGE_NAME, JSON.stringify([]))
+      }
+      const items = JSON.parse(localStorage.getItem(LOCALSTORAGE_NAME))
+      items.unshift(content)
+      localStorage.setItem(LOCALSTORAGE_NAME, JSON.stringify(items))
+    }
+
+    return { form, submit, loading, preview, getLabel, window, save }
   },
 })
 </script>

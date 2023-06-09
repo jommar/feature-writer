@@ -25,6 +25,7 @@
               'With these information, what should the ticket look like? Be as descriptive as possible, do not leave out any details. Provide the neccessary details that are not covered. Feel free to modify the content to use the best practices.',
           },
         ]"
+        type="ticket"
       />
     </v-container>
   </div>

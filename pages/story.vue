@@ -13,6 +13,7 @@
               'Make it as descriptive as possible. Feel free to include details that are not provided. Use language that is appropriate to the age.',
           },
         ]"
+        type="story"
       />
     </v-container>
   </div>

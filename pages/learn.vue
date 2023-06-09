@@ -10,10 +10,10 @@
         :context="[
           { message: 'Make it like an instruction coming from a book.' },
           {
-            message:
-              'Also give me a quiz my child can answer.',
+            message: 'Also give me a quiz my child can answer.',
           },
         ]"
+        type="education"
       />
     </v-container>
   </div>
