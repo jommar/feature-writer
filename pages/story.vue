@@ -62,7 +62,7 @@ export default defineComponent({
         value: null,
       },
       {
-        title: 'Settings/Environment:',
+        title: 'Settings/Environment',
         description: 'Desired story backdrop (e.g., jungle, space).',
         value: null,
       },
