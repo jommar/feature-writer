@@ -11,7 +11,7 @@
           { message: 'Make it like an instruction coming from a book.' },
           {
             message:
-              'Do not give me instructions on what to do, Give me the instructions on what the child is going to do.',
+              'Also give me a quiz my child can answer.',
           },
         ]"
       />
