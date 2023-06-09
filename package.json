@@ -14,6 +14,7 @@
     "nuxt": "^3.5.2"
   },
   "dependencies": {
+    "@mdi/font": "^7.2.96",
     "langchain": "^0.0.91",
     "openai": "^3.2.1",
     "sass": "^1.62.1",

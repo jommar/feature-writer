@@ -5,7 +5,10 @@ export default defineNuxtConfig({
       title: 'Story Writer: AI',
     },
   },
-  css: ['vuetify/lib/styles/main.sass'],
+  css: [
+    'vuetify/lib/styles/main.sass',
+    '@mdi/font/css/materialdesignicons.css',
+  ],
   build: {
     transpile: ['vuetify'],
   },

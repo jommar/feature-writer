@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-container class="text-center">
-      <div class="d-flex justify-center align-center">
+      <div class="d-flex justify-center align-center full-width">
         <div>I Want to create</div>
         <div class="ml-4 flex-grow-1">
           <v-select :items="types" v-model="type" hide-details="auto" />
