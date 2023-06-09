@@ -41,14 +41,10 @@
       theme="dark"
     >
       <v-card theme="dark">
-        <v-btn
+        <SaveButton
           v-if="preview.details.length"
-          class="position-absolute"
-          style="right: 10px; bottom: 10px;"
-          icon="mdi-content-save"
-          variant="outlined"
-          color="success"
-          @click="save"
+          :type="type"
+          :content="preview.details[window]"
         />
         <v-card-text>
           <div
@@ -150,21 +146,7 @@ export default defineComponent({
       loading.value = false
     }
 
-    const save = () => {
-      const LOCALSTORAGE_NAME = 'story-writer'
-      const content = {
-        type: props.type,
-        text: preview.value.details[window.value],
-      }
-      if (!localStorage.getItem(LOCALSTORAGE_NAME)) {
-        localStorage.setItem(LOCALSTORAGE_NAME, JSON.stringify([]))
-      }
-      const items = JSON.parse(localStorage.getItem(LOCALSTORAGE_NAME))
-      items.unshift(content)
-      localStorage.setItem(LOCALSTORAGE_NAME, JSON.stringify(items))
-    }
-
-    return { form, submit, loading, preview, getLabel, window, save }
+    return { form, submit, loading, preview, getLabel, window }
   },
 })
 </script>
