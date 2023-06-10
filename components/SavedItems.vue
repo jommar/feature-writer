@@ -2,7 +2,9 @@
   <div>
     <v-dialog v-model="dialog.show" scrollable max-width="70vw">
       <v-card theme="dark">
-        <v-card-title class="text-blue-darken-3">{{ dialog.content[window].type.toUpperCase() }}</v-card-title>
+        <v-card-title class="text-blue-darken-3">
+          {{ dialog?.content?.[window]?.type?.toUpperCase() }}
+        </v-card-title>
         <v-card-text>
           <v-window v-model="window" show-arrows>
             <v-window-item v-for="(item, index) in dialog.content" :key="index">
