@@ -14,24 +14,6 @@
         </div>
       </v-form>
     </v-card-text>
-    <v-card-actions>
-      <div class="d-flex justify-center flex-grow-1">
-        <v-btn
-          color="success"
-          @click="submit({ reset: true })"
-          :loading="loading"
-        >
-          Submit
-        </v-btn>
-        <v-btn
-          v-if="preview.details.length"
-          color="success"
-          @click="preview.show = !preview.show"
-        >
-          Show
-        </v-btn>
-      </div>
-    </v-card-actions>
 
     <v-dialog
       max-width="70vw"
@@ -108,6 +90,11 @@ export default defineComponent({
     type: { type: String },
   },
   setup(props) {
+    const bottomNav = useState('bottomNav')
+    const showButton = bottomNav.value.buttons.find((i) => i.title === 'Show')
+
+    showButton.visible = false
+
     const loading = ref(false)
     const preview = ref({
       show: false,
@@ -143,7 +130,16 @@ export default defineComponent({
       window.value = 0
       preview.value.details.unshift(data.value.text)
 
+      showButton.visible = true
+      showButton.click = () => {
+        preview.value.show = !preview.value.show
+      }
+
       loading.value = false
+    }
+
+    bottomNav.value.buttons.find((i) => i.title === 'Generate').click = () => {
+      submit({ reset: true })
     }
 
     return { form, submit, loading, preview, getLabel, window }

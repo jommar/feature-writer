@@ -26,6 +26,14 @@
           <NuxtPage class="flex-grow-1" />
         </v-sheet>
       </v-main>
+      <v-bottom-navigation theme="dark" class="bg-grey-darken-4">
+        <template v-for="(nav, index) in bottomNav.buttons">
+          <v-btn v-if="nav.visible" @click="nav.click" :key="index">
+            <v-icon>{{ nav.icon }}</v-icon>
+            {{ nav.title }}
+          </v-btn>
+        </template>
+      </v-bottom-navigation>
     </v-app>
   </ClientOnly>
 </template>
@@ -34,6 +42,21 @@ import { defineComponent } from 'vue'
 
 export default defineComponent({
   setup() {
+    const bottomNav: any = useState('bottomNav', () => ({
+      buttons: [
+        {
+          title: 'Generate',
+          visible: true,
+          icon: 'mdi-content-save',
+        },
+        {
+          title: 'Show',
+          visible: false,
+          icon: 'mdi-eye',
+        },
+      ],
+    }))
+
     const drawer = ref(false)
     const navs = ref([
       { title: 'Home', to: '/' },
@@ -42,7 +65,7 @@ export default defineComponent({
       { title: 'Content', to: '/content' },
     ])
 
-    return { drawer, navs }
+    return { drawer, navs, bottomNav }
   },
 })
 </script>
