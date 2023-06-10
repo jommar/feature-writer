@@ -18,6 +18,7 @@
     "langchain": "^0.0.91",
     "openai": "^3.2.1",
     "sass": "^1.62.1",
+    "vue3-markdown-it": "^1.0.10",
     "vuetify": "^3.3.2"
   }
 }

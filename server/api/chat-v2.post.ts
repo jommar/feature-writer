@@ -18,6 +18,7 @@ export default defineEventHandler(async (event) => {
     ...body.context.map(
       (i: { message: string }) => new HumanChatMessage(i.message),
     ),
+    new HumanChatMessage('Format your reply using markdown.')
   ]
 
   const chat = await model.call(messages)

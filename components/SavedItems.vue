@@ -9,12 +9,13 @@
           <v-window v-model="window" show-arrows>
             <v-window-item v-for="(item, index) in dialog.content" :key="index">
               <v-container class="px-16">
-                <div
+                <!-- <div
                   class="text-light-blue-lighten-4"
                   style="white-space: pre-wrap;"
                 >
                   {{ item.text }}
-                </div>
+                </div> -->
+                <Markdown :source="item.text" />
               </v-container>
             </v-window-item>
           </v-window>
@@ -35,7 +36,6 @@
   </div>
 </template>
 <script lang="ts">
-import { json } from 'stream/consumers'
 import { defineComponent } from 'vue'
 
 export default defineComponent({

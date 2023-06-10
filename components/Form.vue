@@ -40,12 +40,13 @@
               v-for="(item, index) in preview.details"
               :key="index"
             >
-              <div
+              <!-- <div
                 style="white-space: pre-wrap; font-size: 1.15rem;"
                 class="text-light-blue-lighten-4"
               >
                 {{ item }}
-              </div>
+              </div> -->
+              <Markdown :source="item" />
             </v-window-item>
           </v-window>
         </v-card-text>
