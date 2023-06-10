@@ -93,7 +93,11 @@ export default defineComponent({
   setup(props) {
     const bottomNav = useState('bottomNav')
     const showButton = bottomNav.value.buttons.find((i) => i.title === 'Show')
+    const generateButton = bottomNav.value.buttons.find(
+      (i) => i.title === 'Generate',
+    )
 
+    generateButton.visible = true
     showButton.visible = false
 
     const loading = ref(false)

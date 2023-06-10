@@ -35,6 +35,9 @@ import { defineComponent } from 'vue'
 
 export default defineComponent({
   setup() {
+    const bottomNav: any = useState('bottomNav')
+    bottomNav.value.buttons.find((i) => i.title === 'Generate').visible = false
+
     const types = ref([
       { title: 'a Bug', value: 'bug' },
       { title: 'a Feature', value: 'feature' },

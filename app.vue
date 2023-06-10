@@ -26,7 +26,11 @@
           <NuxtPage class="flex-grow-1" />
         </v-sheet>
       </v-main>
-      <v-bottom-navigation theme="dark" class="bg-grey-darken-4">
+      <v-bottom-navigation
+        theme="dark"
+        class="bg-grey-darken-4"
+        v-if="bottomNav.buttons.filter((i) => i.visible).length"
+      >
         <template v-for="(nav, index) in bottomNav.buttons">
           <v-btn v-if="nav.visible" @click="nav.click" :key="index">
             <v-icon>{{ nav.icon }}</v-icon>
@@ -46,7 +50,7 @@ export default defineComponent({
       buttons: [
         {
           title: 'Generate',
-          visible: true,
+          visible: false,
           icon: 'mdi-content-save',
         },
         {
