@@ -51,7 +51,9 @@ export default defineComponent({
     })
     const window = ref(0)
     const viewSaved = () => {
-      const items = JSON.parse(localStorage.getItem('story-writer') || '[]')
+      const items = JSON.parse(
+        localStorage.getItem(useAppConfig().localStorageName) || '[]',
+      )
       if (!items.length) {
         return
       }
@@ -62,7 +64,7 @@ export default defineComponent({
     const removeItem = () => {
       dialog.value.content.splice(window.value, 1)
       const jsonString = JSON.stringify(dialog.value.content)
-      localStorage.setItem('story-writer', jsonString)
+      localStorage.setItem(useAppConfig().localStorageName, jsonString)
       if (!dialog.value.content.length) {
         dialog.value.show = false
       }

@@ -27,19 +27,19 @@ export default defineComponent({
       if (icon.value.disabled) {
         return
       }
-      const LOCALSTORAGE_NAME = 'story-writer'
+      const name = useAppConfig().localStorageName
       const content = {
         type: props.type,
         text: props.content,
       }
       icon.value.name = 'mdi-check-circle'
       icon.value.disabled = true
-      if (!localStorage.getItem(LOCALSTORAGE_NAME)) {
-        localStorage.setItem(LOCALSTORAGE_NAME, JSON.stringify([]))
+      if (!localStorage.getItem(name)) {
+        localStorage.setItem(name, JSON.stringify([]))
       }
-      const items = JSON.parse(localStorage.getItem(LOCALSTORAGE_NAME) || '[]')
+      const items = JSON.parse(localStorage.getItem(name) || '[]')
       items.unshift(content)
-      localStorage.setItem(LOCALSTORAGE_NAME, JSON.stringify(items))
+      localStorage.setItem(name, JSON.stringify(items))
       setTimeout(() => {
         icon.value.name = 'mdi-content-save'
         icon.value.disabled = false
