@@ -67,6 +67,7 @@ export default defineComponent({
       { title: 'Learn', to: '/learn' },
       { title: 'Story', to: '/story' },
       { title: 'Content', to: '/content' },
+      { title: 'Document Chat', to: '/doc-chat' },
     ])
 
     return { drawer, navs, bottomNav }
