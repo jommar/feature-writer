@@ -3,6 +3,7 @@
     <v-dialog v-model="form.showUpload">
       <v-card theme="dark">
         <v-card-text>
+          <v-text-field label="Class Name" v-model="form.className" />
           <v-file-input v-model="form.file" label="CSV/JSON" />
         </v-card-text>
         <v-card-actions>
@@ -88,6 +89,7 @@ export default defineComponent({
     }
     const form = ref({
       file: [],
+      className: '',
       prompt: '',
       messages: [],
       showUpload: false,
@@ -117,6 +119,7 @@ export default defineComponent({
       form.value.uploading = true
       const formData = new FormData()
       formData.append('file', form.value.file[0])
+      formData.append('className', form.value.className)
       await useFetch('/api/upload', {
         method: 'post',
         body: formData,
