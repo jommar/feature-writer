@@ -49,7 +49,7 @@
         </div>
       </div>
       <div
-        class="position-sticky bg-blur-grey-darken-4"
+        class="position-sticky bg-blue-grey-darken-4"
         style="left: 0; right: 0; bottom: 0;"
       >
         <v-textarea
@@ -61,6 +61,7 @@
           density="compact"
           label="Chat"
           @keydown="keydownHandler"
+          :loading="form.loading"
         >
           <template #append>
             <v-btn
@@ -68,6 +69,7 @@
               icon="mdi-upload"
               density="compact"
               color="blue-darken-4"
+              :loading="form.loading"
             />
           </template>
         </v-textarea>
@@ -86,20 +88,25 @@ export default defineComponent({
       messages: [],
       showUpload: false,
       uploading: false,
+      loading: false,
     })
     const memory = ref()
 
     const send = async () => {
+      form.value.loading = true
       const { data } = await useFetch('/api/chat-doc', {
         method: 'post',
         body: {
           prompt: form.value.prompt,
+          reset: Array.isArray(memory.value) ? false : true,
         },
       })
 
       memory.value = data.value?.memory || []
-
-      console.log(data.value)
+      form.value.loading = false
+      setTimeout(() => {
+        window.scrollTo(0, document.body.scrollHeight)
+      }, 0)
     }
 
     const upload = async () => {
