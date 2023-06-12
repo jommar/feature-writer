@@ -46,20 +46,7 @@ import { defineComponent } from 'vue'
 
 export default defineComponent({
   setup() {
-    const bottomNav: any = useState('bottomNav', () => ({
-      buttons: [
-        {
-          title: 'Generate',
-          visible: false,
-          icon: 'mdi-content-save',
-        },
-        {
-          title: 'Show',
-          visible: false,
-          icon: 'mdi-eye',
-        },
-      ],
-    }))
+    const bottomNav: any = useState('bottomNav')
 
     const drawer = ref(false)
     const navs = ref([
