@@ -3,9 +3,8 @@ import { Weaviate } from '../lib/weaviate'
 export default defineEventHandler(async (event) => {
   const formData = await readMultipartFormData(event)
   const fileContent = formData?.find((i) => i.name === 'file')?.data?.toString()
-  const className = formData
-    ?.find((i) => i.name === 'className')
-    ?.data?.toString()
+  const className =
+    formData?.find((i) => i.name === 'className')?.data?.toString() || ''
 
   if (!fileContent || fileContent === 'undefined') {
     throw createError({
@@ -30,5 +29,6 @@ export default defineEventHandler(async (event) => {
     jsonData: json,
     className,
   })
-  return { data }
+  const { classes } = await weaviate.class.read()
+  return { classes }
 })

@@ -13,6 +13,7 @@
             prepend-icon="mdi-upload"
             @click="upload"
             :loading="form.uploading"
+            :disabled="!form.file[0] || !form.className"
           >
             Upload
           </v-btn>
@@ -24,6 +25,18 @@
       class="d-flex flex-column fill-height position-relative"
       style="width: 100%;"
     >
+      <div>
+        <v-btn
+          class="mx-2"
+          color="info"
+          :variant="item.uploaded ? 'flat' : 'outlined'"
+          density="compact"
+          v-for="item in schemas"
+          :key="item.title"
+        >
+          {{ item.title }}
+        </v-btn>
+      </div>
       <div class="flex-grow-1" style="overflow: auto;">
         <div
           v-for="(item, index) in memory"
@@ -84,6 +97,8 @@ import { defineComponent } from 'vue'
 export default defineComponent({
   setup() {
     const bottomNav: any = useState('bottomNav')
+    const schemas: any = ref()
+
     for (const btn of bottomNav.value.buttons) {
       btn.visible = false
     }
@@ -116,16 +131,28 @@ export default defineComponent({
     }
 
     const upload = async () => {
+      const className = form.value.className?.replace(/[ ]/gi, '')
+      if (
+        schemas.value?.length &&
+        !schemas.value?.filter((i: any) => i.title === className).length
+      ) {
+        schemas.value.unshift({ title: className, uploaded: false })
+      } else if (schemas.value?.find((i: any) => i.title === className)) {
+        schemas.value.find((i: any) => i.title === className).uploaded = false
+      }
+
       form.value.uploading = true
+      form.value.showUpload = false
       const formData = new FormData()
       formData.append('file', form.value.file[0])
-      formData.append('className', form.value.className)
+      formData.append('className', className)
       await useFetch('/api/upload', {
         method: 'post',
         body: formData,
       }).catch((e) => {
         console.log(e)
       })
+      schemas.value.find((i: any) => i.title === className).uploaded = true
       form.value.uploading = false
     }
 
@@ -139,7 +166,18 @@ export default defineComponent({
       }
     }
 
-    return { form, send, keydownHandler, upload, memory }
+    onMounted(async () => {
+      const { data }: { data: any } = await useFetch('/api/classes', {
+        method: 'get',
+      })
+      schemas.value =
+        data.value?.classes?.map((i: any) => ({
+          title: i.class,
+          uploaded: true,
+        })) || []
+    })
+
+    return { form, send, keydownHandler, upload, memory, schemas }
   },
 })
 </script>
