@@ -82,6 +82,10 @@ import { defineComponent } from 'vue'
 
 export default defineComponent({
   setup() {
+    const bottomNav: any = useState('bottomNav')
+    for (const btn of bottomNav.value.buttons) {
+      btn.visible = false
+    }
     const form = ref({
       file: [],
       prompt: '',
