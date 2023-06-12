@@ -1,15 +1,30 @@
-import { ChatOpenAI } from 'langchain/chat_models/openai'
-import { HumanChatMessage, SystemChatMessage } from 'langchain/schema'
-
-const model = new ChatOpenAI({
-  openAIApiKey: useRuntimeConfig().openai.API_KEY,
-  temperature: 0.8,
-  modelName: 'gpt-3.5-turbo',
-  maxTokens: 3000,
-})
+import { Weaviate } from '../lib/weaviate'
 
 export default defineEventHandler(async (event) => {
   const formData = await readMultipartFormData(event)
   const fileContent = formData?.find((i) => i.name === 'file')?.data?.toString()
-  return { fileContent }
+  if (!fileContent || fileContent === 'undefined') {
+    throw createError({
+      statusCode: 400,
+      statusMessage: 'File data not found',
+    })
+  }
+  const className = 'Data'
+  const weaviate = new Weaviate()
+  const json = weaviate.csvStringToJsonArray(fileContent.replace(/["\r]/gi, ''))
+  // const jsonData = json.map((i) => ({ data: JSON.stringify(i) }))
+  const classResponse = await weaviate.class.create({
+    class: className,
+  })
+  if (!classResponse) {
+    throw createError({
+      statusCode: 400,
+      statusMessage: `Could not schema for ${className}`,
+    })
+  }
+  const data = await weaviate.insert({
+    jsonData: json,
+    className,
+  })
+  return { data }
 })

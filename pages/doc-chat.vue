@@ -7,7 +7,12 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="blue" prepend-icon="mdi-upload" @click="upload">
+          <v-btn
+            color="blue"
+            prepend-icon="mdi-upload"
+            @click="upload"
+            :loading="form.uploading"
+          >
             Upload
           </v-btn>
         </v-card-actions>
@@ -19,7 +24,29 @@
       style="width: 100%;"
     >
       <div class="flex-grow-1" style="overflow: auto;">
-        <div>CHAT</div>
+        <div
+          v-for="(item, index) in memory"
+          :key="index"
+          class="my-4"
+          style="white-space: pre-wrap;"
+        >
+          <div
+            v-if="
+              item.type === 'human' && !item?.data?.content.match(/^\*\*/gi)
+            "
+            class="text-blue-lighten-2 text-right"
+            style="width: 70%; margin-left: auto;"
+          >
+            {{ item?.data?.content }}
+          </div>
+          <div
+            v-if="item.type === 'ai'"
+            class="text-light-blue-lighten-4"
+            style="width: 70%;"
+          >
+            {{ item?.data?.content }}
+          </div>
+        </div>
       </div>
       <div
         class="position-sticky bg-blur-grey-darken-4"
@@ -58,7 +85,9 @@ export default defineComponent({
       prompt: '',
       messages: [],
       showUpload: false,
+      uploading: false,
     })
+    const memory = ref()
 
     const send = async () => {
       const { data } = await useFetch('/api/chat-doc', {
@@ -68,18 +97,22 @@ export default defineComponent({
         },
       })
 
+      memory.value = data.value?.memory || []
+
       console.log(data.value)
     }
 
     const upload = async () => {
+      form.value.uploading = true
       const formData = new FormData()
       formData.append('file', form.value.file[0])
-      const { data } = await useFetch('/api/upload', {
+      await useFetch('/api/upload', {
         method: 'post',
         body: formData,
+      }).catch((e) => {
+        console.log(e)
       })
-
-      console.log(data.value)
+      form.value.uploading = false
     }
 
     const keydownHandler = (e: any) => {
@@ -92,7 +125,7 @@ export default defineComponent({
       }
     }
 
-    return { form, send, keydownHandler, upload }
+    return { form, send, keydownHandler, upload, memory }
   },
 })
 </script>
