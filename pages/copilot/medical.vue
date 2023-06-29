@@ -5,7 +5,7 @@
         v-model="form"
         :systemMessage="{
           message:
-            'You are a medical practitioner, analyze the information given and make a Symptom Analysis and Possible Conditions.',
+            'You are a medical practitioner, analyze the information given. Your answer should include the following: Symptoms and Analysis, Possible Conditions, Other Factors to Consider, Recommendations heres a sample template\nSymptoms and Analysis\n...\nPossible Conditions\n...\nOther Factors to Consider\n...\nRecommendations\n...',
         }"
         :context="[
           {
@@ -72,8 +72,7 @@ export default defineComponent({
       },
       {
         title: 'Symptoms',
-        description:
-          'What symptoms are you currently experiencing?',
+        description: 'What symptoms are you currently experiencing?',
         value: null,
         useDescription: true,
       },
@@ -128,6 +127,10 @@ export default defineComponent({
         description: 'Do you drink alcohol? (if yes, provide details)',
         value: null,
         useDescription: true,
+      },
+      {
+        title: 'Additional Information',
+        value: null,
       },
     ])
 

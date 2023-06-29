@@ -8,7 +8,7 @@
             {{ item.description }}
           </div>
           <v-textarea
-            :label="getLabel(`${item.title}: ${item.description}`)"
+            :label="getLabel(`${item.title || ''}: ${item.description || ''}`)"
             v-model="item.value"
           />
         </div>
