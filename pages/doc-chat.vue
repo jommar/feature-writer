@@ -26,16 +26,22 @@
       style="width: 100%;"
     >
       <div>
-        <v-btn
-          class="mx-2"
-          color="info"
-          :variant="item.uploaded ? 'flat' : 'outlined'"
-          density="compact"
+        <v-hover
           v-for="item in schemas"
           :key="item.title"
+          v-slot="{ isHovering }"
         >
-          {{ item.title }}
-        </v-btn>
+          <!-- <v-btn
+            class="mx-2"
+            color="info"
+            :variant="item.uploaded ? 'flat' : 'outlined'"
+            density="compact"
+          >
+            {{ item.title }}
+          </v-btn> -->
+          <span>{{ item.title }}</span>
+          <span>{{ isHovering }}</span>
+        </v-hover>
       </div>
       <div class="flex-grow-1" style="overflow: auto;">
         <div

@@ -55,6 +55,7 @@ export default defineComponent({
       { title: 'Story', to: '/story' },
       { title: 'Content', to: '/content' },
       { title: 'Document Chat', to: '/doc-chat' },
+      { title: 'Copilot: Med', to: '/copilot/medical' },
     ])
 
     return { drawer, navs, bottomNav }

@@ -1,0 +1,124 @@
+<template>
+  <div>
+    <v-container class="text-center">
+      <Form
+        v-model="form"
+        :systemMessage="{
+          message:
+            'You are a medical practitioner, analyze the information given and make a Symptom Analysis and Possible Conditions.',
+        }"
+        :context="[
+          {
+            message:
+              'Make it as descriptive as possible. Feel free to include details that are not provided.',
+          },
+        ]"
+        type="copilot-med"
+      />
+    </v-container>
+  </div>
+</template>
+<script lang="ts">
+import { defineComponent } from 'vue'
+
+export default defineComponent({
+  setup() {
+    const form = ref([
+      {
+        title: 'Personal Information: Name',
+        description: 'Name',
+        value: null,
+      },
+      {
+        title: 'Personal Information: Age',
+        description: 'Age',
+        value: null,
+      },
+      {
+        title: 'Personal Information: Gender',
+        description: 'Gender',
+        value: null,
+      },
+      {
+        title: 'Medical History: Pre-existing Medical Conditions',
+        description:
+          'Do you have any pre-existing medical conditions? (if yes, provide details)',
+        value: null,
+      },
+      {
+        title: 'Medical History: Current Medications',
+        description:
+          'Are you currently on any medication? (if yes, provide details)',
+        value: null,
+      },
+      {
+        title: 'Medical History: Allergies',
+        description:
+          'Do you have any known allergies? (if yes, provide details)',
+        value: null,
+      },
+      {
+        title: 'Family Medical History: Health Conditions',
+        description:
+          'Does anyone in your family have a history of chronic or serious health conditions? (if yes, provide details)',
+        value: null,
+      },
+      {
+        title: 'Symptoms',
+        description:
+          'What symptoms are you currently experiencing? (allow multiple selections and provide a text box for additional details)',
+        value: null,
+      },
+      {
+        title: 'Symptoms: Start',
+        description: 'When did you first notice these symptoms?',
+        value: null,
+      },
+      {
+        title: 'Symptoms: Start',
+        description:
+          'Have your symptoms been getting better, worse, or staying the same?',
+        value: null,
+      },
+      {
+        title: 'Symptoms: Severity',
+        description:
+          'How severe would you rate your symptoms on a scale of 1-10?',
+        value: null,
+      },
+      {
+        title: 'Lifestyle: Stress Level',
+        description:
+          'How would you rate your current stress level on a scale of 1-10?',
+        value: null,
+      },
+      {
+        title: 'Lifestyle: Sleep',
+        description:
+          'How many hours of sleep do you typically get each night?',
+        value: null,
+      },
+      {
+        title: 'Lifestyle: Exercise',
+        description:
+          'How many days per week do you exercise, on average?',
+        value: null,
+      },
+      {
+        title: 'Lifestyle: Smoking',
+        description:
+          'Do you smoke or use tobacco products? (if yes, provide details)',
+        value: null,
+      },
+      {
+        title: 'Lifestyle: Alcohol Consumption',
+        description:
+          'Do you drink alcohol? (if yes, provide details)',
+        value: null,
+      },
+    ])
+
+    return { form }
+  },
+})
+</script>
