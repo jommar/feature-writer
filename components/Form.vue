@@ -114,9 +114,19 @@ export default defineComponent({
     const form = computed(() => {
       return {
         systemMessage: props.systemMessage || undefined,
-        formMessage: props.modelValue?.map((i) => ({
-          message: `${i.title}: ${i?.value?.toUpperCase() || 'any'}`,
-        })),
+        formMessage: props.modelValue
+          ?.map((i) => {
+            let message = `${i.title}: ${i?.value?.toUpperCase() || 'any'}`
+            if (i.useDescription) {
+              message = i.value
+                ? `${i.description}: ${i.value.toUpperCase()}`
+                : ''
+            }
+            return {
+              message,
+            }
+          })
+          ?.filter((i) => i?.message),
         context: props.context || undefined,
       }
     })
