@@ -130,6 +130,7 @@ export default defineComponent({
       },
       {
         title: 'Additional Information',
+        description: 'Provide any additional information as necessary',
         value: null,
       },
     ])
