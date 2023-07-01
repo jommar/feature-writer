@@ -1,5 +1,11 @@
+import { LLMChain } from 'langchain/chains'
 import { ChatOpenAI } from 'langchain/chat_models/openai'
-import { HumanChatMessage, SystemChatMessage } from 'langchain/schema'
+import {
+  ChatPromptTemplate,
+  HumanMessagePromptTemplate,
+  SystemMessagePromptTemplate,
+} from 'langchain/prompts'
+// import { HumanChatMessage, SystemChatMessage } from 'langchain/schema'
 
 const model = new ChatOpenAI({
   openAIApiKey: useRuntimeConfig().openai.API_KEY,
@@ -10,17 +16,32 @@ const model = new ChatOpenAI({
 
 export default defineEventHandler(async (event) => {
   const body = await readBody(event)
-  const messages = [
-    new SystemChatMessage(body.systemMessage.message),
-    ...body.formMessage.map(
-      (i: { message: string }) => new HumanChatMessage(i.message),
-    ),
-    ...body.context.map(
-      (i: { message: string }) => new HumanChatMessage(i.message),
-    ),
-    new HumanChatMessage('Format your reply using markdown.')
-  ]
+  // const messages = [
+  //   new SystemChatMessage(body.systemMessage.message),
+  //   ...body.formMessage.map(
+  //     (i: { message: string }) => new HumanChatMessage(i.message),
+  //   ),
+  //   ...body.context.map(
+  //     (i: { message: string }) => new HumanChatMessage(i.message),
+  //   ),
+  //   new HumanChatMessage('Format your reply using markdown.'),
+  // ]
 
-  const chat = await model.call(messages)
+  const chatPrompts = ChatPromptTemplate.fromPromptMessages([
+    SystemMessagePromptTemplate.fromTemplate(body.systemMessage.message),
+    ...body.formMessage.map((i: { message: string }) =>
+      HumanMessagePromptTemplate.fromTemplate(i.message),
+    ),
+    ...body.context.map((i: { message: string }) =>
+      HumanMessagePromptTemplate.fromTemplate(i.message),
+    ),
+  ])
+
+  const chain = new LLMChain({
+    llm: model,
+    prompt: chatPrompts,
+  })
+
+  const chat = await chain.call({})
   return { text: chat.text }
 })
