@@ -11,10 +11,14 @@ const model = new ChatOpenAI({
   temperature: 0.8,
   modelName: 'gpt-3.5-turbo',
   maxTokens: 3000,
-  // streaming: true,
+  streaming: true,
 })
 
 export default defineEventHandler(async (event) => {
+  setHeader(event, 'Content-Type', 'text/event-stream')
+  setHeader(event, 'Cache-Control', 'no-cache')
+  setHeader(event, 'Connection', 'keep-alive')
+
   const body = await readBody(event)
   const chatPrompts = ChatPromptTemplate.fromPromptMessages([
     SystemMessagePromptTemplate.fromTemplate(body.systemMessage.message),
@@ -31,15 +35,12 @@ export default defineEventHandler(async (event) => {
     prompt: chatPrompts,
   })
 
-  const chat = await chain.call(
-    {},
-    // [
-    //   {
-    //     handleLLMNewToken(token: string) {
-    //       console.log(token)
-    //     },
-    //   },
-    // ]
-  )
-  return { text: chat.text }
+  const chat = await chain.call({}, [
+    {
+      handleLLMNewToken(token: string) {
+        event.node.res.write(token)
+      },
+    },
+  ])
+  return ''
 })

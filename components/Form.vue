@@ -132,25 +132,47 @@ export default defineComponent({
     })
 
     const submit = async ({ reset = false }) => {
-      loading.value = true
-
-      preview.value.show = true
       if (reset) {
         preview.value.details = []
       }
-      const { data } = await useFetch('/api/chat-v2', {
-        method: 'post',
-        body: form.value,
-      })
-      window.value = 0
-      preview.value.details.unshift(data.value.text)
+      preview.value.show = true
+      const config = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(form.value),
+      }
+      fetch('/api/chat-v2', config)
+        .then(async (response) => {
+          const reader = response.body.getReader()
+          preview.value.details.unshift('')
 
+          const processChunk = ({ done, value }) => {
+            if (done) {
+              console.log('Stream finished')
+              return
+            }
+
+            const chunk = new TextDecoder().decode(value)
+
+            // Update the Vue data property
+            if (chunk) {
+              preview.value.details[0] += chunk
+            }
+
+            return reader.read().then(processChunk)
+          }
+
+          return reader.read().then(processChunk)
+        })
+        .catch((error) => {
+          console.error(error)
+        })
       showButton.visible = true
       showButton.click = () => {
         preview.value.show = !preview.value.show
       }
-
-      loading.value = false
     }
 
     bottomNav.value.buttons.find((i) => i.title === 'Generate').click = () => {
