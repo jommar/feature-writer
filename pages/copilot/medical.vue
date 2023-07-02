@@ -14,6 +14,7 @@
           },
         ]"
         type="copilot-med"
+        :temperature="0.2"
       />
     </v-container>
   </div>

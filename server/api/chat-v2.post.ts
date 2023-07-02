@@ -20,6 +20,11 @@ export default defineEventHandler(async (event) => {
   setHeader(event, 'Connection', 'keep-alive')
 
   const body = await readBody(event)
+
+  if (body.temperature) {
+    model.temperature = body.temperature
+  }
+
   const chatPrompts = ChatPromptTemplate.fromPromptMessages([
     SystemMessagePromptTemplate.fromTemplate(body.systemMessage.message),
     ...body.formMessage.map((i: { message: string }) =>

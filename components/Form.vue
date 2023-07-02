@@ -89,6 +89,7 @@ export default defineComponent({
     systemMessage: { type: Object },
     placeholder: { type: String },
     type: { type: String },
+    temperature: { type: Number, default: () => 0.8 },
   },
   setup(props) {
     const bottomNav = useState('bottomNav')
@@ -141,7 +142,7 @@ export default defineComponent({
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(form.value),
+        body: JSON.stringify({ ...form.value, temperature: props.temperature }),
       }
       fetch('/api/chat-v2', config)
         .then(async (response) => {
