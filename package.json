@@ -6,14 +6,15 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
+    "start": "nuxt start",
     "postinstall": "nuxt prepare",
     "v": "node -v"
   },
   "devDependencies": {
-    "@types/node": "^18",
-    "nuxt": "^3.5.2"
+    "@types/node": "^18"
   },
   "dependencies": {
+    "nuxt": "^3.5.2",
     "@mdi/font": "^7.2.96",
     "langchain": "^0.0.91",
     "openai": "^3.2.1",

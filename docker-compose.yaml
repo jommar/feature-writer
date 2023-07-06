@@ -1,6 +1,16 @@
 version: '3'
 
 services:
+  ai-copilot:
+    image: node:18.16.0
+    working_dir: /app
+    volumes:
+      - ./:/app
+    environment:
+      - NODE_ENV=production
+    ports:
+      - "3010:3000"
+    command: bash -c "npm install --production=false && npx nuxi build && npx nuxi start"
   weaviate:
     image: semitechnologies/weaviate:latest
     command:
