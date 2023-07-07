@@ -9,7 +9,8 @@ import {
 const model = new ChatOpenAI({
   openAIApiKey: useRuntimeConfig().openai.API_KEY,
   temperature: 0.8,
-  modelName: 'gpt-3.5-turbo',
+  // modelName: 'gpt-3.5-turbo',
+  modelName: 'gpt-4',
   maxTokens: 3000,
   streaming: true,
 })
